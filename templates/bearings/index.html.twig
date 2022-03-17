@@ -1,0 +1,39 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Bearings index{% endblock %}
+
+{% block body %}
+    <h1>Bearings index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Value</th>
+                <th>IsMandatory</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for bearing in bearings %}
+            <tr>
+                <td>{{ bearing.id }}</td>
+                <td>{{ bearing.name }}</td>
+                <td>{{ bearing.value }}</td>
+                <td>{{ bearing.isMandatory ? 'Yes' : 'No' }}</td>
+                <td>
+                    <a href="{{ path('app_bearings_show', {'id': bearing.id}) }}">show</a>
+                    <a href="{{ path('app_bearings_edit', {'id': bearing.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="5">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_bearings_new') }}">Create new</a>
+{% endblock %}

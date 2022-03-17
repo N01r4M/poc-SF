@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New Bearings{% endblock %}
+
+{% block body %}
+    <h1>Create new Bearings</h1>
+
+    {{ include('bearings/_form.html.twig') }}
+
+    <a href="{{ path('app_bearings_index') }}">back to list</a>
+{% endblock %}

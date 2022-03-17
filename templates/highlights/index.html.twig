@@ -1,0 +1,39 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Highlights index{% endblock %}
+
+{% block body %}
+    <h1>Highlights index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>CreatedAt</th>
+                <th>Name</th>
+                <th>Description</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for highlight in highlights %}
+            <tr>
+                <td>{{ highlight.id }}</td>
+                <td>{{ highlight.createdAt ? highlight.createdAt|date('Y-m-d') : '' }}</td>
+                <td>{{ highlight.name }}</td>
+                <td>{{ highlight.description }}</td>
+                <td>
+                    <a href="{{ path('app_highlights_show', {'id': highlight.id}) }}">show</a>
+                    <a href="{{ path('app_highlights_edit', {'id': highlight.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="5">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_highlights_new') }}">Create new</a>
+{% endblock %}

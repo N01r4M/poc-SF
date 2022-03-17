@@ -1,0 +1,34 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Bearings{% endblock %}
+
+{% block body %}
+    <h1>Bearings</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ bearing.id }}</td>
+            </tr>
+            <tr>
+                <th>Name</th>
+                <td>{{ bearing.name }}</td>
+            </tr>
+            <tr>
+                <th>Value</th>
+                <td>{{ bearing.value }}</td>
+            </tr>
+            <tr>
+                <th>IsMandatory</th>
+                <td>{{ bearing.isMandatory ? 'Yes' : 'No' }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_bearings_index') }}">back to list</a>
+
+    <a href="{{ path('app_bearings_edit', {'id': bearing.id}) }}">edit</a>
+
+    {{ include('bearings/_delete_form.html.twig') }}
+{% endblock %}
