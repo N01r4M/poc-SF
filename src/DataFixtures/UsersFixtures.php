@@ -25,7 +25,7 @@ class UsersFixtures extends Fixture implements DependentFixtureInterface
         $user->setEmail('admin@mail.fr');
         $password = $this->hasher->hashPassword($user, 'pass_1234');
         $user->setPassword($password);
-        $user->setRoles(['ROLE_ADMIN']);
+        $user->setRoles(['ROLE_SUPER_ADMIN']);
         $user->setIsTeamManager(false);
         $user->setTeam(null);
         $manager->persist($user);
@@ -37,7 +37,7 @@ class UsersFixtures extends Fixture implements DependentFixtureInterface
         $user->setEmail('gg@mail.fr');
         $password = $this->hasher->hashPassword($user, 'pass_1234');
         $user->setPassword($password);
-        $user->setRoles(['ROLE_USER']);
+        $user->setRoles(['ROLE_ADMIN']);
         $user->setIsTeamManager(true);
         $user->setTeam($this->getReference('team_0'));
         $manager->persist($user);
@@ -73,7 +73,7 @@ class UsersFixtures extends Fixture implements DependentFixtureInterface
         $user->setEmail('mb@mail.fr');
         $password = $this->hasher->hashPassword($user, 'pass_1234');
         $user->setPassword($password);
-        $user->setRoles(['ROLE_USER']);
+        $user->setRoles(['ROLE_ADMIN']);
         $user->setIsTeamManager(true);
         $user->setTeam($this->getReference('team_1'));
         $manager->persist($user);
@@ -109,7 +109,7 @@ class UsersFixtures extends Fixture implements DependentFixtureInterface
         $user->setEmail('bt@mail.fr');
         $password = $this->hasher->hashPassword($user, 'pass_1234');
         $user->setPassword($password);
-        $user->setRoles(['ROLE_USER']);
+        $user->setRoles(['ROLE_ADMIN']);
         $user->setIsTeamManager(true);
         $user->setTeam($this->getReference('team_2'));
         $manager->persist($user);
@@ -145,7 +145,7 @@ class UsersFixtures extends Fixture implements DependentFixtureInterface
         $user->setEmail('hf@mail.fr');
         $password = $this->hasher->hashPassword($user, 'pass_1234');
         $user->setPassword($password);
-        $user->setRoles(['ROLE_USER']);
+        $user->setRoles(['ROLE_ADMIN']);
         $user->setIsTeamManager(true);
         $user->setTeam($this->getReference('team_3'));
         $manager->persist($user);
@@ -181,7 +181,7 @@ class UsersFixtures extends Fixture implements DependentFixtureInterface
         $user->setEmail('gl@mail.fr');
         $password = $this->hasher->hashPassword($user, 'pass_1234');
         $user->setPassword($password);
-        $user->setRoles(['ROLE_USER']);
+        $user->setRoles(['ROLE_ADMIN']);
         $user->setIsTeamManager(true);
         $user->setTeam($this->getReference('team_4'));
         $manager->persist($user);
