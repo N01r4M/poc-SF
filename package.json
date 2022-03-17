@@ -4,7 +4,9 @@
         "@symfony/stimulus-bridge": "^3.0.0",
         "@symfony/webpack-encore": "^1.8.1",
         "core-js": "^3.0.0",
+        "node-sass": "^7.0.1",
         "regenerator-runtime": "^0.13.2",
+        "sass-loader": "^12.6.0",
         "webpack-notifier": "^1.15.0"
     },
     "license": "UNLICENSED",
@@ -14,5 +16,6 @@
         "dev": "encore dev",
         "watch": "encore dev --watch",
         "build": "encore production --progress"
-    }
+    },
+    "dependencies": {}
 }
