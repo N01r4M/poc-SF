@@ -18,9 +18,6 @@ class Teams
     #[ORM\Column(type: 'string', length: 255)]
     private $name;
 
-    #[ORM\OneToOne(targetEntity: Users::class, cascade: ['persist', 'remove'])]
-    private $manager;
-
     #[ORM\ManyToOne(targetEntity: self::class, inversedBy: 'teams')]
     private $parentTeam;
 
@@ -57,18 +54,6 @@ class Teams
     public function setName(string $name): self
     {
         $this->name = $name;
-
-        return $this;
-    }
-
-    public function getManager(): ?Users
-    {
-        return $this->manager;
-    }
-
-    public function setManager(?Users $manager): self
-    {
-        $this->manager = $manager;
 
         return $this;
     }

@@ -4,9 +4,10 @@ namespace App\Entity;
 
 use App\Repository\UsersRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 
 #[ORM\Entity(repositoryClass: UsersRepository::class)]
-class Users
+class Users implements PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -30,6 +31,9 @@ class Users
 
     #[ORM\ManyToOne(targetEntity: Teams::class, inversedBy: 'members')]
     private $team;
+
+    #[ORM\Column(type: 'boolean')]
+    private $isTeamManager;
 
     public function getId(): ?int
     {
@@ -104,6 +108,18 @@ class Users
     public function setTeam(?Teams $team): self
     {
         $this->team = $team;
+
+        return $this;
+    }
+
+    public function getIsTeamManager(): ?bool
+    {
+        return $this->isTeamManager;
+    }
+
+    public function setIsTeamManager(bool $isTeamManager): self
+    {
+        $this->isTeamManager = $isTeamManager;
 
         return $this;
     }
