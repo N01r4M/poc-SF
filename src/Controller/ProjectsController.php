@@ -29,6 +29,7 @@ class ProjectsController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $project->setLanding($project->getStillToDo());
             $projectsRepository->add($project);
             return $this->redirectToRoute('app_projects_index', [], Response::HTTP_SEE_OTHER);
         }

@@ -1,0 +1,15 @@
+.btn {
+    background: radial-gradient(circle at top left, mix(white, $primary, 60%), $primary 30%);
+    background-color: $primary;
+    border: none;
+    color: white;
+
+    &:hover {
+        color: white;
+        transform: translateY(-0.1em);
+    }
+
+    &.btn-delete {
+        background: radial-gradient(circle at top left, mix(white, $primary, 60%), red 30%);
+    }
+}

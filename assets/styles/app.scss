@@ -1,3 +1,27 @@
+@import "_variables";
+@import "~bootstrap/scss/bootstrap.scss";
+@import "_btn";
+@import "_navbar";
+
 body {
-    background-color: lightgray;
+    font-family: 'Roboto', sans-serif;
+    background-color: $gray-900;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    color: $white;
+}
+
+main {
+    padding: 1rem;
+}
+
+i {
+    margin-right: 10px;
+}
+
+option {
+    color: black !important;
 }

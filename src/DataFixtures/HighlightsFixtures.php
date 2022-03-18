@@ -18,7 +18,7 @@ class HighlightsFixtures extends Fixture implements DependentFixtureInterface
 
             $highlight->setCreatedAt(new DateTime());
             $highlight->setName('Highlight ' . $i);
-            $highlight->setDescription(file_get_contents('http://loripsum.net/api/1/short'));
+            $highlight->setDescription(simplexml_load_file('http://www.lipsum.com/feed/xml?amount=1&what=paras&start=0')->lipsum);
             $highlight->setBearing($this->getReference('bearing_' . random_int(0, 4)));
 
             $manager->persist($highlight);

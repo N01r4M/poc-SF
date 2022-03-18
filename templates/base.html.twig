@@ -2,7 +2,7 @@
 <html>
     <head>
         <meta charset="UTF-8">
-        <title>{% block title %}Welcome!{% endblock %}</title>
+        <title>{% block title %}{% endblock %}Phénix</title>
         <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text></svg>">
         {# Run `composer require symfony/webpack-encore-bundle` to start using Symfony UX #}
         {% block stylesheets %}
@@ -14,6 +14,53 @@
         {% endblock %}
     </head>
     <body>
-        {% block body %}{% endblock %}
+        <nav class="navbar sticky-top navbar-expand-lg navbar-dark">
+            <div class="container-fluid">
+                <a href="{{ path('app_home') }}" class="navbar-brand">Phénix</a>
+                <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarCollapse">
+                    {% if app.user %}
+                        <div class="navbar-nav">
+                            <li class="nav-items">
+                                <a href="{{ path('app_home') }}" class="nav-item nav-link {% if (app.request.pathInfo == path('app_home')) %} active{% endif %}">Accueil</a>
+                            </li>
+
+                            {% if not is_granted('ROLE_ADMIN') %}
+                                <li class="nav-items">
+                                    <a href="{{ path('app_projects_index') }}" class="nav-item nav-link {% if (app.request.pathInfo | split("/")[1] == "projects") %}active{% endif %}">Projets</a>
+                                </li>
+                            {% else %}
+                                <li class="nav-items dropdown">
+                                    <a href="{{ path('app_projects_index') }}" class="nav-item nav-link dropdown-toggle {% if (app.request.pathInfo | split("/")[1] == "projects") %}active{% endif %}" role="button" data-bs-toggle="dropdown" aria-expanded="false">Projets</a>
+                                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                        <li><a class="dropdown-item" href="{{ path('app_projects_index') }}">Liste</a></li>
+                                        <li><a class="dropdown-item" href="{{ path('app_projects_new') }}">Nouveau</a></li>
+                                    </ul>
+                                </li>
+                            {% endif %}
+                            
+                        </div>
+                    {% endif %}
+                    
+                    <div class="navbar-nav ms-auto">
+                        <li class="nav-items">
+                            <a href="{% if app.user %}{{ path('app_logout') }}{% else %}{{ path('app_logout') }}{% endif %}" class="nav-item nav-link active">
+                                {% if app.user %}
+                                    Déconnexion
+                                {% else %}
+                                    Connexion
+                                {% endif %}
+                            </a>
+                        </li>
+                    </div>
+                </div>
+            </div>
+        </nav>
+        
+        <main>
+            {% block body %}{% endblock %}
+        </main>
     </body>
 </html>

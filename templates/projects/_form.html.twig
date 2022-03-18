@@ -1,4 +1,75 @@
 {{ form_start(form) }}
-    {{ form_widget(form) }}
-    <button class="btn">{{ button_label|default('Save') }}</button>
+    <div>
+        {{ form_errors(form) }}
+    </div>
+
+    <div class="row">
+        <div class="col">
+            {{ form_row(form.name) }}
+            {{ form_row(form.description) }}
+        </div>
+        <div class="col">
+            {{ form_row(form.startedAt) }}
+            {{ form_row(form.endedAt) }}
+            {% if (app.request.pathInfo != path('app_projects_new')) %}
+                {{ form_row(form.isArchived) }}
+            {% else %}
+                <div hidden>
+                    {{ form_row(form.isArchived) }}
+                </div>
+            {% endif %}
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col">
+            {{ form_row(form.initialValue) }}
+        </div>
+
+        {% if (app.request.pathInfo != path('app_projects_new')) %}
+            <div class="col">
+                {{ form_row(form.consumedValue) }}
+            </div>
+        {% else %}
+            <div hidden>
+                {{ form_row(form.consumedValue) }}
+            </div>
+        {% endif %}
+        
+        <div class="col">
+            {{ form_row(form.stillToDo) }}
+        </div>
+
+        {% if (app.request.pathInfo != path('app_projects_new')) %}
+            <div class="col">
+                {{ form_row(form.landing) }}
+            </div>
+        {% else %}
+            <div hidden>
+                {{ form_row(form.landing) }}
+            </div>
+        {% endif %}
+    </div>
+        
+    <div class="row">
+        <div class="col">
+            {{ form_row(form.teamProject) }}
+        </div>
+        <div class="col">
+            {{ form_row(form.teamCustomers) }}
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col">
+            {{ form_row(form.status) }}
+        </div>
+        <div class="col">
+            {{ form_row(form.portfolio) }}
+        </div>
+    </div>
+
+    {{ form_rest(form) }}
+
+    <button class="btn">{{ button_label|default('Enregistrer') }}</button>
 {{ form_end(form) }}
