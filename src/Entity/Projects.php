@@ -241,18 +241,6 @@ class Projects
         return $this;
     }
 
-    public function getBudget(): ?Budgets
-    {
-        return $this->budget;
-    }
-
-    public function setBudget(?Budgets $budget): self
-    {
-        $this->budget = $budget;
-
-        return $this;
-    }
-
     /**
      * @return Collection<int, Highlights>
      */
