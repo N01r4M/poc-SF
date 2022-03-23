@@ -33,18 +33,39 @@
                                 </li>
                             {% else %}
                                 <li class="nav-items dropdown">
-                                    <a href="{{ path('app_projects_index') }}" class="nav-item nav-link dropdown-toggle {% if (app.request.pathInfo | split("/")[1] == "projects") %}active{% endif %}" role="button" data-bs-toggle="dropdown" aria-expanded="false">Projets</a>
+                                    <a href="{{ path('app_projects_index') }}" class="nav-item nav-link dropdown-toggle {% if app.request.pathInfo | split(" /") | length > 1 %}{% if app.request.pathInfo | split(" /")[1] == " projects" %}active{% endif %}{% endif %}" role="button" data-bs-toggle="dropdown" aria-expanded="false">Projets</a>
+
                                     <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                        <li><a class="dropdown-item" href="{{ path('app_projects_index') }}">Liste</a></li>
-                                        <li><a class="dropdown-item" href="{{ path('app_projects_new') }}">Nouveau</a></li>
+                                        <li>
+                                            <a class="dropdown-item" href="{{ path('app_projects_index') }}">Liste</a>
+                                        </li>
+                                        <li>
+                                            <a class="dropdown-item" href="{{ path('app_projects_new') }}">Nouveau</a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li class="nav-items dropdown">
+                                    <a href="{{ path('app_users_index') }}" class="nav-item nav-link dropdown-toggle {% if app.request.pathInfo | split(" /") | length > 1 %}{% if app.request.pathInfo | split(" /")[1] == " users" %}active{% endif %}{% endif %}" role="button" data-bs-toggle="dropdown" aria-expanded="false">Utilisateurs</a>
+
+                                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                        <li>
+                                            <a class="dropdown-item" href="{{ path('app_users_index') }}">Gestion</a>
+                                        </li>
+                                        <li>
+                                            <a class="dropdown-item" href="{{ path('app_teams_index') }}">Equipes</a>
+                                        </li>
                                     </ul>
                                 </li>
                             {% endif %}
                             
                         </div>
                     {% endif %}
-                    
                     <div class="navbar-nav ms-auto">
+                        {% if not app.user %}
+                            <li class="nav-items">
+                                <a href="{{ path('app_register') }}" class="nav-item nav-link active">Inscription</a>
+                            </li>
+                        {% endif %}
                         <li class="nav-items">
                             <a href="{% if app.user %}{{ path('app_logout') }}{% else %}{{ path('app_logout') }}{% endif %}" class="nav-item nav-link active">
                                 {% if app.user %}
