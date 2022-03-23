@@ -1,13 +1,14 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Edit Highlights{% endblock %}
+{% block title %}{{ highlight.name }} | {% endblock %}
 
 {% block body %}
-    <h1>Edit Highlights</h1>
+    <h1>Modification | {{ highlight.name }}</h1>
 
-    {{ include('highlights/_form.html.twig', {'button_label': 'Update'}) }}
+    <div class="d-flex justify-content-between">
+        <a href="{{ path('app_highlights_index') }}">Retour à la liste</a>
+        {{ include('highlights/_delete_form.html.twig') }}
+    </div>
 
-    <a href="{{ path('app_highlights_index') }}">back to list</a>
-
-    {{ include('highlights/_delete_form.html.twig') }}
+    {{ include('highlights/_form.html.twig', {'button_label': 'Mettre à jour'}) }}
 {% endblock %}
