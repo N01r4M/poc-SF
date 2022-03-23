@@ -1,34 +1,41 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Bearings{% endblock %}
+{% block title %}{{ bearing.name }} | {% endblock %}
 
 {% block body %}
-    <h1>Bearings</h1>
+    <h1>{{ bearing.name }}</h1>
+
+    <div class="d-flex justify-content-between">
+        <div>
+            <a href="{{ path('app_bearings_index') }}">Retour à la liste</a>
+        </div>
+
+        <div class="d-flex justify-content-between">
+            <a href="{{ path('app_bearings_edit', {'id': bearing.id}) }}" class="btn me-2" title="Modifier le jalon">
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" class="bi bi-pencil-square" viewbox="0 0 16 16">
+                    <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
+                    <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/>
+                </svg>
+            </a>
+
+            {{ include('bearings/_delete_form.html.twig') }}
+        </div>
+    </div>
 
     <table class="table">
         <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ bearing.id }}</td>
-            </tr>
-            <tr>
-                <th>Name</th>
-                <td>{{ bearing.name }}</td>
-            </tr>
             <tr>
                 <th>Value</th>
                 <td>{{ bearing.value }}</td>
             </tr>
             <tr>
-                <th>IsMandatory</th>
-                <td>{{ bearing.isMandatory ? 'Yes' : 'No' }}</td>
+                <th>Nom</th>
+                <td>{{ bearing.name }}</td>
+            </tr>
+            <tr>
+                <th>Est obligatoire ?</th>
+                <td>{{ bearing.isMandatory ? 'Oui' : 'Non' }}</td>
             </tr>
         </tbody>
     </table>
-
-    <a href="{{ path('app_bearings_index') }}">back to list</a>
-
-    <a href="{{ path('app_bearings_edit', {'id': bearing.id}) }}">edit</a>
-
-    {{ include('bearings/_delete_form.html.twig') }}
 {% endblock %}

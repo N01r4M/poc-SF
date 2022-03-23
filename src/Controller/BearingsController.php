@@ -29,6 +29,11 @@ class BearingsController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $last = $bearingsRepository->findOneBy([], ['id' => 'DESC']);
+            $lastId = $last->getId();
+
+            $bearing->setValue($lastId + 1);
+
             $bearingsRepository->add($bearing);
             return $this->redirectToRoute('app_bearings_index', [], Response::HTTP_SEE_OTHER);
         }

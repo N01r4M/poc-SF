@@ -1,13 +1,14 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Edit Bearings{% endblock %}
+{% block title %}{{ bearing.name }} | {% endblock %}
 
 {% block body %}
-    <h1>Edit Bearings</h1>
+    <h1>Modification | {{ bearing.name }}</h1>
 
-    {{ include('bearings/_form.html.twig', {'button_label': 'Update'}) }}
+    <div class="d-flex justify-content-between">
+        <a href="{{ path('app_bearings_index') }}">Retour à la liste</a>
+        {{ include('bearings/_delete_form.html.twig') }}
+    </div>
 
-    <a href="{{ path('app_bearings_index') }}">back to list</a>
-
-    {{ include('bearings/_delete_form.html.twig') }}
+    {{ include('bearings/_form.html.twig', {'button_label': 'Mettre à jour'}) }}
 {% endblock %}
