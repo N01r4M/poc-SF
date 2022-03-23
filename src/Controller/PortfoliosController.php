@@ -42,8 +42,13 @@ class PortfoliosController extends AbstractController
     #[Route('/{id}', name: 'app_portfolios_show', methods: ['GET'])]
     public function show(Portfolios $portfolio): Response
     {
+        $projects = $portfolio->getProjects();
+        $manager = $portfolio->getManager();
+
         return $this->render('portfolios/show.html.twig', [
             'portfolio' => $portfolio,
+            'projects' => $projects,
+            'manager' => $manager
         ]);
     }
 

@@ -45,7 +45,7 @@
                                     </ul>
                                 </li>
                                 <li class="nav-items dropdown">
-                                    <a href="{{ path('app_users_index') }}" class="nav-item nav-link dropdown-toggle {% if app.request.pathInfo | split(" /") | length > 1 %}{% if app.request.pathInfo | split(" /")[1] == " users" %}active{% endif %}{% endif %}" role="button" data-bs-toggle="dropdown" aria-expanded="false">Utilisateurs</a>
+                                    <a href="" class="nav-item nav-link dropdown-toggle {% if app.request.pathInfo | split("/") | length > 1 %}{% if app.request.pathInfo | split("/")[1] == " users" or app.request.pathinfo | split("/")[1] == " teams" %}active{% endif %}{% endif %}" role="button" data-bs-toggle="dropdown" aria-expanded="false">Utilisateurs</a>
 
                                     <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                                         <li>
@@ -53,6 +53,30 @@
                                         </li>
                                         <li>
                                             <a class="dropdown-item" href="{{ path('app_teams_index') }}">Equipes</a>
+                                        </li>
+                                        <li>
+                                            <a class="dropdown-item" href="{{ path('app_portfolios_index') }}">Portfolios</a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li class="nav-items dropdown">
+                                    <a href="" class="nav-item nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">Administration</a>
+
+                                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                        <li>
+                                            <a class="dropdown-item" href="{{ path('app_status_index') }}">Statut</a>
+                                        </li>
+                                        <li>
+                                            <a class="dropdown-item" href="{{ path('app_severities_index') }}">Sévérités</a>
+                                        </li>
+                                        <li>
+                                            <a class="dropdown-item" href="{{ path('app_risks_index') }}">Risques</a>
+                                        </li>
+                                        <li>
+                                            <a class="dropdown-item" href="{{ path('app_bearings_index') }}">Jalons</a>
+                                        </li>
+                                        <li>
+                                            <a class="dropdown-item" href="{{ path('app_highlights_index') }}">Faits marquants</a>
                                         </li>
                                     </ul>
                                 </li>
