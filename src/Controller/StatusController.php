@@ -29,6 +29,11 @@ class StatusController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $last = $statusRepository->findOneBy([], ['id' => 'DESC']);
+            $lastId = $last->getId();
+
+            $status->setValue($lastId + 1);
+
             $statusRepository->add($status);
             return $this->redirectToRoute('app_status_index', [], Response::HTTP_SEE_OTHER);
         }
