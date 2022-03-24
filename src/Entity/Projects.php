@@ -63,6 +63,10 @@ class Projects
     #[ORM\OneToMany(mappedBy: 'projects', targetEntity: Risks::class)]
     private $risks;
 
+    #[ORM\ManyToOne(targetEntity: Phases::class, inversedBy: 'projects')]
+    #[ORM\JoinColumn(nullable: false)]
+    private $phase;
+
     public function __construct()
     {
         $this->highlights = new ArrayCollection();
@@ -297,6 +301,18 @@ class Projects
                 $risk->setProjects(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getPhase(): ?Phases
+    {
+        return $this->phase;
+    }
+
+    public function setPhase(?Phases $phase): self
+    {
+        $this->phase = $phase;
 
         return $this;
     }

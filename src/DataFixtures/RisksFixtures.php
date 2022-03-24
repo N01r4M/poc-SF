@@ -10,6 +10,8 @@ use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 
 class RisksFixtures extends Fixture implements DependentFixtureInterface
 {
+    private array $namesProba = ['Très peu probable', 'Peu probable', 'Probable', 'Très probable'];
+
     public function load(ObjectManager $manager): void
     {
         for ($i = 0; $i < 20; $i++) {
@@ -18,8 +20,8 @@ class RisksFixtures extends Fixture implements DependentFixtureInterface
             $risk->setName('Risk ' . $i);
             $risk->setIdentifiedAt(new DateTime());
             $risk->setResolvedAt(null);
-            $risk->setProbability('proba_' . $i);
-            $risk->setSeverity($this->getReference('severity_' . random_int(0, 4)));
+            $risk->setProbability($this->namesProba[random_int(0, 3)]);
+            $risk->setSeverity($this->getReference('severity_' . random_int(0, 3)));
 
             $manager->persist($risk);
             $this->addReference('risk_' . $i, $risk);

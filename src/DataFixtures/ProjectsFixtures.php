@@ -41,10 +41,11 @@ class ProjectsFixtures extends Fixture implements DependentFixtureInterface
             $project->setLanding($landing);
             $project->setTeamProject($this->getReference('team_' . mt_rand(0, 4)));
             $project->setTeamCustomers($this->getReference('team_' . mt_rand(0, 4)));
-            $project->setStatus($this->getReference('status_' . mt_rand(0, 2)));
+            $project->setStatus($this->getReference('status_' . mt_rand(0, 5)));
             $project->setPortfolio($this->getReference('portfolio_' . mt_rand(0, 2)));
             $project->addHighlight($this->getReference('highlight_' . $i));
             $project->addRisk($this->getReference('risk_' . $i));
+            $project->setPhase($this->getReference('phase_' . mt_rand(0, 7)));
 
             $manager->persist($project);
             $this->addReference('project_' . $i, $project);

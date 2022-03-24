@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Nouvelle phase | {% endblock %}
+
+{% block body %}
+    <h1>Ajout d'une nouvelle phase</h1>
+
+    <a href="{{ path('app_phases_index') }}">Retour à la liste</a>
+
+    {{ include('phases/_form.html.twig') }}
+{% endblock %}

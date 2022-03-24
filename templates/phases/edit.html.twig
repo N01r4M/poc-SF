@@ -1,0 +1,14 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ phase.name }} | {% endblock %}
+
+{% block body %}
+    <h1>Modification | {{ phase.name }}</h1>
+
+    <div class="d-flex justify-content-between">
+        <a href="{{ path('app_phases_index') }}">Retour à la liste</a>
+        {{ include('phases/_delete_form.html.twig') }}
+    </div>
+
+    {{ include('phases/_form.html.twig', {'button_label': 'Mettre à jour'}) }}
+{% endblock %}
