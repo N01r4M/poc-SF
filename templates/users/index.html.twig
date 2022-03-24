@@ -1,9 +1,12 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Users index{% endblock %}
+{% block title %}Liste des collaborateurs | {% endblock %}
 
 {% block body %}
-    <h1>Users index</h1>
+    <div class="d-flex justify-content-between align-items-center">
+        <h1>Liste des collaborateurs</h1>
+        <a href="{{ path('app_users_new') }}" class="btn">Nouveau collaborateur</a>
+    </div>
 
     <table class="table">
         <thead>
