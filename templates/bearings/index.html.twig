@@ -3,46 +3,88 @@
 {% block title %}Liste des jalons | {% endblock %}
 
 {% block body %}
-    <div class="d-flex justify-content-between align-items-center">
+    <div class="d-flex justify-content-between align-items-center bloc">
         <h1>Liste des jalons</h1>
-        <a href="{{ path('app_bearings_new') }}" class="btn">Nouveau jalon</a>
+        <div class="d-flex align-items-center">
+            {{ include('bearings/_search_form.html.twig') }}
+            <a href="{{ path('app_bearings_new') }}" class="btn btn-primary">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-lg" viewbox="0 0 16 16">
+                    <path fill-rule="evenodd" d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2Z"/>
+                </svg>
+                Nouveau jalon
+            </a>
+        </div>
     </div>
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Valeur</th>
-                <th>Nom</th>
-                <th>Est obligatoire ?</th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for bearing in bearings %}
-            <tr>
-                <td>{{ bearing.value }}</td>
-                <td>{{ bearing.name }}</td>
-                <td>{{ bearing.isMandatory ? 'Oui' : 'Non' }}</td>
-                <td>
-                    <a href="{{ path('app_bearings_show', {'id': bearing.id}) }}" class="btn" title="Plus d'informations sur le jalon">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-eye-fill" viewbox="0 0 16 16">
-                            <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0z"/>
-                            <path d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8zm8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z"/>
-                        </svg>
-                    </a>
-                    <a href="{{ path('app_bearings_edit', {'id': bearing.id}) }}" class="btn" title="Modifier le jalon">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" class="bi bi-pencil-square" viewbox="0 0 16 16">
-                            <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
-                            <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/>
-                        </svg>
-                    </a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="5">Aucun jalon trouvé</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+    <div class="bloc-table">
+        <table class="table table-dark table-striped table-hover table-bordered table-sm align-middle table-responsive">
+            <thead>
+                <tr class="text-center">
+                    <th>Valeur</th>
+                    <th>Nom</th>
+                    <th>Est obligatoire ?</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for bearing in bearings %}
+                    <tr>
+                        <td>{{ bearing.value }}</td>
+                        <td>{{ bearing.name }}</td>
+                        <td>{{ bearing.isMandatory ? 'Oui' : 'Non' }}</td>
+                        <td class="text-center">
+                            <a href="{{ path('app_bearings_show', {'id': bearing.id}) }}" class="btn btn-primary" title="Plus d'informations sur le jalon">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-eye-fill" viewbox="0 0 16 16">
+                                    <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0z"/>
+                                    <path d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8zm8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z"/>
+                                </svg>
+                            </a>
+                            <a href="{{ path('app_bearings_edit', {'id': bearing.id}) }}" class="btn btn-primary" title="Modifier le jalon">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" class="bi bi-pencil-square" viewbox="0 0 16 16">
+                                    <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
+                                    <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/>
+                                </svg>
+                            </a>
+                        </td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td colspan="5">Aucun jalon trouvé</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <small class="text-muted">Affichage des éléments {{ 1 * page }} à {% if total < 10 %} {{ total }} {% else %} {{ 10 * page }} {% endif %} sur {{ total }} {% if total <= 1 %} élément {% else %} éléments{% endif %}</small>
+
+        {% if numberPages > 1 %}
+            <nav>
+                <ul class="pagination pagination-sm justify-content-center">
+                    <li class="page-item {% if page is same as 1 %}disabled{% endif %}">
+                        <a class="page-link" href="{{ path('app_phases_index', {'page': page - 1}) }}" aria-label="Previous">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" fill="currentColor" class="bi bi-chevron-double-left" viewbox="0 0 16 16">
+                                <path fill-rule="evenodd" d="M8.354 1.646a.5.5 0 0 1 0 .708L2.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z"/>
+                                <path fill-rule="evenodd" d="M12.354 1.646a.5.5 0 0 1 0 .708L6.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z"/>
+                            </svg>
+                        </a>
+                    </li>
+
+                    {% for nb in 1..numberPages %}
+                        <li class="page-item {% if page is same as nb %}active{% endif %}">
+                            <a class="page-link" href="{{ path('app_phases_index', {'page': nb})}}">{{ nb }}</a>
+                        </li>
+                    {% endfor %}
+
+                    <li class="page-item {% if page is same as numberPages %}disabled{% endif %}">
+                        <a class="page-link" href="{{ path('app_phases_index', {'page': page + 1}) }}" aria-label="Next">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" fill="currentColor" class="bi bi-chevron-double-right" viewbox="0 0 16 16">
+                                <path fill-rule="evenodd" d="M3.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L9.293 8 3.646 2.354a.5.5 0 0 1 0-.708z"/>
+                                <path fill-rule="evenodd" d="M7.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L13.293 8 7.646 2.354a.5.5 0 0 1 0-.708z"/>
+                            </svg>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        {% endif %}  
+    </div>
 {% endblock %}

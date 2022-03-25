@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Bearings;
 use App\Form\BearingsType;
+use App\Form\BearingsSearchType;
 use App\Repository\BearingsRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -13,11 +14,41 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route('/bearings')]
 class BearingsController extends AbstractController
 {
-    #[Route('/', name: 'app_bearings_index', methods: ['GET'])]
-    public function index(BearingsRepository $bearingsRepository): Response
+    #[Route('/list/{page}/{filter}', name: 'app_bearings_index', methods: ['GET', 'POST'])]
+    public function index(BearingsRepository$bearingsRepository, Request $request, int $page, ?string $filter = null): Response
     {
+        $offset = 0 + (($page - 1) * 10);
+        $bearings = $bearingsRepository->findBy([], [], 10, $offset);
+
+        $form = $this->createForm(BearingsSearchType::class, $filter);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $filter = $form->getData()['filter'];
+
+            if (is_null($filter)) {
+                $offset = 0 + (($page - 1) * 10);
+                $bearings = $bearingsRepository->findBy([], [], 10, $offset);
+            } else {
+                $bearings = $bearingsRepository->filterByName($filter);
+            }
+
+            return $this->render('bearings/index.html.twig', [
+                'bearings' => $bearings,
+                'total' => count($bearings),
+                'numberPages' => intval(round(count($bearings) / 10)),
+                'page' => $page,
+                'filter' => $filter,
+                'form' => $form->createView(),
+            ]);
+        }
+
         return $this->render('bearings/index.html.twig', [
-            'bearings' => $bearingsRepository->findAll(),
+            'bearings' => $bearings,
+            'total' => count($bearings),
+            'numberPages' => intval(round(count($bearings) / 10)),
+            'page' => $page,
+            'form' => $form->createView()
         ]);
     }
 

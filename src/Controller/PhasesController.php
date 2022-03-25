@@ -26,8 +26,13 @@ class PhasesController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $filter = $form->getData()['filter'];
 
-            $phases = $phasesRepository->filterByName($filter);
-
+            if (is_null($filter)) {
+                $offset = 0 + (($page - 1) * 10);
+                $phases = $phasesRepository->findBy([], [], 10, $offset);
+            } else {
+                $phases = $phasesRepository->filterByName($filter);
+            }
+            
             return $this->render('phases/index.html.twig', [
                 'phases' => $phases,
                 'total' => count($phases),

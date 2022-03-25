@@ -61,7 +61,7 @@
 
         <small class="text-muted">Affichage des éléments {{ 1 * page }} à {% if total < 10 %} {{ total }} {% else %} {{ 10 * page }} {% endif %} sur {{ total }} {% if total <= 1 %} élément {% else %} éléments{% endif %}</small>
 
-        {% if numberPages is not same as 1 %}
+        {% if numberPages > 1 %}
             <nav>
                 <ul class="pagination pagination-sm justify-content-center">
                     <li class="page-item {% if page is same as 1 %}disabled{% endif %}">

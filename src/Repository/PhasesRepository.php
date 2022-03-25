@@ -45,8 +45,11 @@ class PhasesRepository extends ServiceEntityRepository
         }
     }
 
-
-    public function filterByName($filter)
+    /**
+     * Filter the phases by their name
+     * @param string $filter
+     */
+    public function filterByName(string $filter)
     {
         return $this->createQueryBuilder('p')
             ->andWhere("p.name LIKE '%$filter%'")
@@ -56,7 +59,6 @@ class PhasesRepository extends ServiceEntityRepository
             ->getResult()
         ;
     }
-    
 
     // /**
     //  * @return Phases[] Returns an array of Phases objects

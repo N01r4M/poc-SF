@@ -44,7 +44,7 @@
                                     <a href="{{ path('app_phases_index', {'page': 1}) }}" class="nav-item nav-link {% if (app.request.pathInfo | split("/")[1] == " projects") %}active{% endif %}">Phases</a>
                                 </li>
                                 <li class="nav-items">
-                                    <a href="{{ path('app_bearings_index') }}" class="nav-item nav-link {% if (app.request.pathInfo | split("/")[1] == " projects") %}active{% endif %}">Jalons</a>
+                                    <a href="{{ path('app_bearings_index', {'page': 1}) }}" class="nav-item nav-link {% if (app.request.pathInfo | split("/")[1] == " projects") %}active{% endif %}">Jalons</a>
                                 </li>
                                 <li class="nav-items">
                                     <a href="{{ path('app_risks_index') }}" class="nav-item nav-link {% if (app.request.pathInfo | split("/")[1] == " projects") %}active{% endif %}">Risques</a>

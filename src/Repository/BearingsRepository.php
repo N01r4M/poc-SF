@@ -45,6 +45,20 @@ class BearingsRepository extends ServiceEntityRepository
         }
     }
 
+    /**
+     * Filter the bearings by their name
+     * @param string $filter
+     */
+    public function filterByName(string $filter)
+    {
+        return $this->createQueryBuilder('b')
+            ->andWhere("b.name LIKE '%$filter%'")
+            ->orderBy('b.id', 'ASC')
+            ->setMaxResults(10)
+            ->getQuery()
+            ->getResult();
+    }
+
     // /**
     //  * @return Bearings[] Returns an array of Bearings objects
     //  */
