@@ -4,7 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Portfolios;
 use App\Form\PortfoliosType;
-use App\Form\PortfoliosSearchType;
+use App\Form\SearchType;
 use App\Repository\PortfoliosRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -21,7 +21,7 @@ class PortfoliosController extends AbstractController
         $portfolios = $portfoliosRepository->findBy([], [], 10, $offset);
         $all = $portfoliosRepository->findAll();
 
-        $form = $this->createForm(PortfoliosSearchType::class, $filter);
+        $form = $this->createForm(SearchType::class, $filter);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {

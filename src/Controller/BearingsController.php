@@ -4,7 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Bearings;
 use App\Form\BearingsType;
-use App\Form\BearingsSearchType;
+use App\Form\SearchType;
 use App\Repository\BearingsRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -21,7 +21,7 @@ class BearingsController extends AbstractController
         $bearings = $bearingsRepository->findBy([], [], 10, $offset);
         $all = $bearingsRepository->findAll();
 
-        $form = $this->createForm(BearingsSearchType::class, $filter);
+        $form = $this->createForm(SearchType::class, $filter);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {

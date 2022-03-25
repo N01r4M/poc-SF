@@ -4,7 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Phases;
 use App\Form\PhasesType;
-use App\Form\PhasesSearchType;
+use App\Form\SearchType;
 use App\Repository\PhasesRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -21,7 +21,7 @@ class PhasesController extends AbstractController
         $phases = $phasesRepository->findBy([], [], 10, $offset);
         $all = $phasesRepository->findAll();
 
-        $form = $this->createForm(PhasesSearchType::class, $filter);
+        $form = $this->createForm(SearchType::class, $filter);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {

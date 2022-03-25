@@ -45,6 +45,20 @@ class StatusRepository extends ServiceEntityRepository
         }
     }
 
+    /**
+     * Filter the status by their name
+     * @param string $filter
+     */
+    public function filterByName(string $filter)
+    {
+        return $this->createQueryBuilder('p')
+            ->andWhere("p.name LIKE '%$filter%'")
+            ->orderBy('p.id', 'ASC')
+            ->setMaxResults(10)
+            ->getQuery()
+            ->getResult();
+    }
+
     // /**
     //  * @return Status[] Returns an array of Status objects
     //  */

@@ -4,7 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Highlights;
 use App\Form\HighlightsType;
-use App\Form\HighlightsSearchType;
+use App\Form\SearchType;
 use App\Repository\HighlightsRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -21,7 +21,7 @@ class HighlightsController extends AbstractController
         $highlights = $highlightsRepository->findBy([], [], 10, $offset);
         $all = $highlightsRepository->findAll();
 
-        $form = $this->createForm(HighlightsSearchType::class, $filter);
+        $form = $this->createForm(SearchType::class, $filter);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
