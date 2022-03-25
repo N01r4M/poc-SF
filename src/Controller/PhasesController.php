@@ -17,8 +17,9 @@ class PhasesController extends AbstractController
     #[Route('/list/{page}/{filter}', name: 'app_phases_index', methods: ['GET', 'POST'])]
     public function index(PhasesRepository $phasesRepository, Request $request, int $page, ?string $filter = null): Response
     {
-        $offset = 0 + (($page - 1) * 10);
+        $offset = ($page - 1) * 10;
         $phases = $phasesRepository->findBy([], [], 10, $offset);
+        $all = $phasesRepository->findAll();
 
         $form = $this->createForm(PhasesSearchType::class, $filter);
         $form->handleRequest($request);
@@ -29,14 +30,16 @@ class PhasesController extends AbstractController
             if (is_null($filter)) {
                 $offset = 0 + (($page - 1) * 10);
                 $phases = $phasesRepository->findBy([], [], 10, $offset);
+                $all = $phasesRepository->findAll();
             } else {
                 $phases = $phasesRepository->filterByName($filter);
+                $all = $phases;
             }
             
             return $this->render('phases/index.html.twig', [
                 'phases' => $phases,
-                'total' => count($phases),
-                'numberPages' => intval(round(count($phases) / 10)),
+                'total' => count($all),
+                'numberPages' => intval(round(count($all) / 10)),
                 'page' => $page,
                 'filter' => $filter,
                 'form' => $form->createView(),
@@ -45,8 +48,8 @@ class PhasesController extends AbstractController
 
         return $this->render('phases/index.html.twig', [
             'phases' => $phases,
-            'total' => count($phases),
-            'numberPages' => intval(round(count($phases) / 10)),
+            'total' => count($all),
+            'numberPages' => intval(round(count($all) / 10)),
             'page' => $page,
             'form' => $form->createView()
         ]);

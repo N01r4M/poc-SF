@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Highlights;
 use App\Form\HighlightsType;
+use App\Form\HighlightsSearchType;
 use App\Repository\HighlightsRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -13,11 +14,44 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route('/highlights')]
 class HighlightsController extends AbstractController
 {
-    #[Route('/', name: 'app_highlights_index', methods: ['GET'])]
-    public function index(HighlightsRepository $highlightsRepository): Response
+    #[Route('/list/{page}/{filter}', name: 'app_highlights_index', methods: ['GET', 'POST'])]
+    public function index(HighlightsRepository$highlightsRepository, Request $request, int $page, ?string $filter = null): Response
     {
+        $offset = ($page - 1) * 10;
+        $highlights = $highlightsRepository->findBy([], [], 10, $offset);
+        $all = $highlightsRepository->findAll();
+
+        $form = $this->createForm(HighlightsSearchType::class, $filter);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $filter = $form->getData()['filter'];
+
+            if (is_null($filter)) {
+                $offset = 0 + (($page - 1) * 10);
+                $highlights = $highlightsRepository->findBy([], [], 10, $offset);
+                $all = $highlightsRepository->findAll();
+            } else {
+                $highlights = $highlightsRepository->filterByName($filter);
+                $all = $highlights;
+            }
+
+            return $this->render('highlights/index.html.twig', [
+                'highlights' => $highlights,
+                'total' => count($all),
+                'numberPages' => intval(round(count($all) / 10)),
+                'page' => $page,
+                'filter' => $filter,
+                'form' => $form->createView(),
+            ]);
+        }
+
         return $this->render('highlights/index.html.twig', [
-            'highlights' => $highlightsRepository->findAll(),
+            'highlights' => $highlights,
+            'total' => count($all),
+            'numberPages' => intval(round(count($all) / 10)),
+            'page' => $page,
+            'form' => $form->createView()
         ]);
     }
 

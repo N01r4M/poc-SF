@@ -59,7 +59,7 @@
             </tbody>
         </table>
 
-        <small class="text-muted">Affichage des éléments {{ 1 * page }} à {% if total < 10 %} {{ total }} {% else %} {{ 10 * page }} {% endif %} sur {{ total }} {% if total <= 1 %} élément {% else %} éléments{% endif %}</small>
+        <small class="text-muted">Affichage des éléments {{ 10 * (page - 1) + 1 }} à {% if total < 10 %} {{ total }} {% else %} {{ 10 * page }} {% endif %} sur {{ total }} {% if total <= 1 %} élément {% else %} éléments{% endif %}</small>
 
         {% if numberPages > 1 %}
             <nav>

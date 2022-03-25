@@ -45,6 +45,20 @@ class HighlightsRepository extends ServiceEntityRepository
         }
     }
 
+    /**
+     * Filter the highlights by their name
+     * @param string $filter
+     */
+    public function filterByName(string $filter)
+    {
+        return $this->createQueryBuilder('p')
+            ->andWhere("p.name LIKE '%$filter%'")
+            ->orderBy('p.id', 'ASC')
+            ->setMaxResults(10)
+            ->getQuery()
+            ->getResult();
+    }
+
     // /**
     //  * @return Highlights[] Returns an array of Highlights objects
     //  */

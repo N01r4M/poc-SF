@@ -17,8 +17,9 @@ class BearingsController extends AbstractController
     #[Route('/list/{page}/{filter}', name: 'app_bearings_index', methods: ['GET', 'POST'])]
     public function index(BearingsRepository$bearingsRepository, Request $request, int $page, ?string $filter = null): Response
     {
-        $offset = 0 + (($page - 1) * 10);
+        $offset = ($page - 1) * 10;
         $bearings = $bearingsRepository->findBy([], [], 10, $offset);
+        $all = $bearingsRepository->findAll();
 
         $form = $this->createForm(BearingsSearchType::class, $filter);
         $form->handleRequest($request);
@@ -29,14 +30,16 @@ class BearingsController extends AbstractController
             if (is_null($filter)) {
                 $offset = 0 + (($page - 1) * 10);
                 $bearings = $bearingsRepository->findBy([], [], 10, $offset);
+                $all = $bearingsRepository->findAll();
             } else {
                 $bearings = $bearingsRepository->filterByName($filter);
+                $all = $bearings;
             }
 
             return $this->render('bearings/index.html.twig', [
                 'bearings' => $bearings,
-                'total' => count($bearings),
-                'numberPages' => intval(round(count($bearings) / 10)),
+                'total' => count($all),
+                'numberPages' => intval(round(count($all) / 10)),
                 'page' => $page,
                 'filter' => $filter,
                 'form' => $form->createView(),
@@ -45,8 +48,8 @@ class BearingsController extends AbstractController
 
         return $this->render('bearings/index.html.twig', [
             'bearings' => $bearings,
-            'total' => count($bearings),
-            'numberPages' => intval(round(count($bearings) / 10)),
+            'total' => count($all),
+            'numberPages' => intval(round(count($all) / 10)),
             'page' => $page,
             'form' => $form->createView()
         ]);
