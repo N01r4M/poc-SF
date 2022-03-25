@@ -35,7 +35,7 @@
                                     <a href="{{ path('app_users_index') }}" class="nav-item nav-link {% if (app.request.pathInfo | split("/")[1] == "users") %}active{% endif %}">Collaborateurs</a>
                                 </li>
                                 <li class="nav-items">
-                                    <a href="{{ path('app_teams_index') }}" class="nav-item nav-link {% if (app.request.pathInfo | split("/")[1] == "teams") %}active{% endif %}">Equipes</a>
+                                    <a href="{{ path('app_teams_index', {'page': 1}) }}" class="nav-item nav-link {% if (app.request.pathInfo | split("/")[1] == "teams") %}active{% endif %}">Equipes</a>
                                 </li>
                                 <li class="nav-items">
                                     <a href="{{ path('app_status_index', {'page': 1}) }}" class="nav-item nav-link {% if (app.request.pathInfo | split("/")[1] == "status") %}active{% endif %}">Statuts</a>

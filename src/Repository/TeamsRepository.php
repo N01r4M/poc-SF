@@ -45,6 +45,20 @@ class TeamsRepository extends ServiceEntityRepository
         }
     }
 
+    /**
+     * Filter the teams by their name
+     * @param string $filter
+     */
+    public function filterByName(string $filter)
+    {
+        return $this->createQueryBuilder('p')
+            ->andWhere("p.name LIKE '%$filter%'")
+            ->orderBy('p.id', 'ASC')
+            ->setMaxResults(10)
+            ->getQuery()
+            ->getResult();
+    }
+
     // /**
     //  * @return Teams[] Returns an array of Teams objects
     //  */

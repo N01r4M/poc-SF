@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Teams;
 use App\Form\TeamsType;
+use App\Form\SearchType;
 use App\Repository\TeamsRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -13,11 +14,44 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route('/teams')]
 class TeamsController extends AbstractController
 {
-    #[Route('/', name: 'app_teams_index', methods: ['GET'])]
-    public function index(TeamsRepository $teamsRepository): Response
+    #[Route('/list/{page}/{filter}', name: 'app_teams_index', methods: ['GET', 'POST'])]
+    public function index(TeamsRepository$teamsRepository, Request $request, int $page, ?string $filter = null): Response
     {
+        $offset = ($page - 1) * 10;
+        $teams = $teamsRepository->findBy([], [], 10, $offset);
+        $all = $teamsRepository->findAll();
+
+        $form = $this->createForm(SearchType::class, $filter);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $filter = $form->getData()['filter'];
+
+            if (is_null($filter)) {
+                $offset = 0 + (($page - 1) * 10);
+                $teams = $teamsRepository->findBy([], [], 10, $offset);
+                $all = $teamsRepository->findAll();
+            } else {
+                $teams = $teamsRepository->filterByName($filter);
+                $all = $teams;
+            }
+
+            return $this->render('teams/index.html.twig', [
+                'teams' => $teams,
+                'total' => count($all),
+                'numberPages' => intval(round(count($all) / 10)),
+                'page' => $page,
+                'filter' => $filter,
+                'form' => $form->createView(),
+            ]);
+        }
+
         return $this->render('teams/index.html.twig', [
-            'teams' => $teamsRepository->findAll(),
+            'teams' => $teams,
+            'total' => count($all),
+            'numberPages' => intval(round(count($all) / 10)),
+            'page' => $page,
+            'form' => $form->createView()
         ]);
     }
 
