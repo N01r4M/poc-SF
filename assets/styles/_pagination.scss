@@ -1,0 +1,32 @@
+nav {
+    ul {
+        margin-bottom: 0 !important;
+
+        .page-item {
+            .page-link {
+                background-color: $primary;
+                color: $white;
+                border-color: $primary-d-20;
+    
+                &:hover {
+                    background-color: $primary-d-20;
+                    color: $white;
+                }
+            }
+
+            &.disabled {
+                .page-link {
+                    background-color: $primary-d-40;
+                    border: $primary;
+                }
+            }
+
+            &.active {
+                .page-link {
+                    background-color: $light;
+                    color: $primary;
+                }
+            }
+        }
+    }
+}

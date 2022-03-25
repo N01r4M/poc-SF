@@ -45,6 +45,19 @@ class PhasesRepository extends ServiceEntityRepository
         }
     }
 
+
+    public function filterByName($filter)
+    {
+        return $this->createQueryBuilder('p')
+            ->andWhere("p.name LIKE '%$filter%'")
+            ->orderBy('p.id', 'ASC')
+            ->setMaxResults(10)
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+    
+
     // /**
     //  * @return Phases[] Returns an array of Phases objects
     //  */

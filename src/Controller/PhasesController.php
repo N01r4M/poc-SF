@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Phases;
 use App\Form\PhasesType;
+use App\Form\PhasesSearchType;
 use App\Repository\PhasesRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -13,11 +14,36 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route('/phases')]
 class PhasesController extends AbstractController
 {
-    #[Route('/', name: 'app_phases_index', methods: ['GET'])]
-    public function index(PhasesRepository $phasesRepository): Response
+    #[Route('/list/{page}/{filter}', name: 'app_phases_index', methods: ['GET', 'POST'])]
+    public function index(PhasesRepository $phasesRepository, Request $request, int $page, ?string $filter = null): Response
     {
+        $offset = 0 + (($page - 1) * 10);
+        $phases = $phasesRepository->findBy([], [], 10, $offset);
+
+        $form = $this->createForm(PhasesSearchType::class, $filter);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $filter = $form->getData()['filter'];
+
+            $phases = $phasesRepository->filterByName($filter);
+
+            return $this->render('phases/index.html.twig', [
+                'phases' => $phases,
+                'total' => count($phases),
+                'numberPages' => intval(round(count($phases) / 10)),
+                'page' => $page,
+                'filter' => $filter,
+                'form' => $form->createView(),
+            ]);
+        }
+
         return $this->render('phases/index.html.twig', [
-            'phases' => $phasesRepository->findAll(),
+            'phases' => $phases,
+            'total' => count($phases),
+            'numberPages' => intval(round(count($phases) / 10)),
+            'page' => $page,
+            'form' => $form->createView()
         ]);
     }
 
