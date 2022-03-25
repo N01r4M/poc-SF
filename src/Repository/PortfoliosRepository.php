@@ -45,6 +45,20 @@ class PortfoliosRepository extends ServiceEntityRepository
         }
     }
 
+    /**
+     * Filter the portfolios by their name
+     * @param string $filter
+     */
+    public function filterByName(string $filter)
+    {
+        return $this->createQueryBuilder('p')
+            ->andWhere("p.name LIKE '%$filter%'")
+            ->orderBy('p.id', 'ASC')
+            ->setMaxResults(10)
+            ->getQuery()
+            ->getResult();
+    }
+
     // /**
     //  * @return Portfolios[] Returns an array of Portfolios objects
     //  */
