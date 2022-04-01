@@ -56,7 +56,7 @@
                                     <a href="{{ path('app_severities_index', {'page': 1}) }}" class="nav-item nav-link {% if (app.request.pathInfo | split("/")[1] == "severities") %}active{% endif %}">Sévérités</a>
                                 </li>
                                 <li class="nav-items">
-                                    <a href="{{ path('app_risks_index') }}" class="nav-item nav-link {% if (app.request.pathInfo | split("/")[1] == "risks") %}active{% endif %}">Risques</a>
+                                    <a href="{{ path('app_risks_index', {'page': 1}) }}" class="nav-item nav-link {% if (app.request.pathInfo | split("/")[1] == "risks") %}active{% endif %}">Risques</a>
                                 </li>
                             {% endif %}
                             

@@ -28,7 +28,7 @@ class HighlightsController extends AbstractController
             $filter = $form->getData()['filter'];
 
             if (is_null($filter)) {
-                $offset = 0 + (($page - 1) * 10);
+                $offset = ($page - 1) * 10;
                 $highlights = $highlightsRepository->findBy([], [], 10, $offset);
                 $all = $highlightsRepository->findAll();
             } else {
