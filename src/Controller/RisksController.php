@@ -15,7 +15,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class RisksController extends AbstractController
 {
     #[Route('/list/{page}/{filter}', name: 'app_risks_index', methods: ['GET', 'POST'])]
-    public function index(RisksRepository$risksRepository, Request $request, int $page, ?string $filter = null): Response
+    public function index(RisksRepository $risksRepository, Request $request, int $page, ?string $filter = null): Response
     {
         $offset = ($page - 1) * 10;
         $risks = $risksRepository->findBy([], [], 10, $offset);

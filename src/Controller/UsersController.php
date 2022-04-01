@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Users;
 use App\Form\UsersType;
+use App\Form\SearchType;
 use App\Repository\UsersRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -13,11 +14,44 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route('/users')]
 class UsersController extends AbstractController
 {
-    #[Route('/', name: 'app_users_index', methods: ['GET'])]
-    public function index(UsersRepository $usersRepository): Response
+    #[Route('/list/{page}/{filter}', name: 'app_users_index', methods: ['GET', 'POST'])]
+    public function index(UsersRepository $usersRepository, Request $request, int $page, ?string $filter = null): Response
     {
+        $offset = ($page - 1) * 10;
+        $users = $usersRepository->findBy([], [], 10, $offset);
+        $all = $usersRepository->findAll();
+
+        $form = $this->createForm(SearchType::class, $filter);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $filter = $form->getData()['filter'];
+
+            if (is_null($filter)) {
+                $offset = ($page - 1) * 10;
+                $users = $usersRepository->findBy([], [], 10, $offset);
+                $all = $usersRepository->findAll();
+            } else {
+                $users = $usersRepository->filterByName($filter);
+                $all = $users;
+            }
+
+            return $this->render('users/index.html.twig', [
+                'users' => $users,
+                'total' => count($all),
+                'numberPages' => intval(round(count($all) / 10)),
+                'page' => $page,
+                'filter' => $filter,
+                'form' => $form->createView(),
+            ]);
+        }
+
         return $this->render('users/index.html.twig', [
-            'users' => $usersRepository->findAll(),
+            'users' => $users,
+            'total' => count($all),
+            'numberPages' => intval(round(count($all) / 10)),
+            'page' => $page,
+            'form' => $form->createView()
         ]);
     }
 

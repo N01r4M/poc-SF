@@ -45,6 +45,20 @@ class UsersRepository extends ServiceEntityRepository
         }
     }
 
+    /**
+     * Filter the risks by their name
+     * @param string $filter
+     */
+    public function filterByName(string $filter)
+    {
+        return $this->createQueryBuilder('s')
+            ->andWhere("s.lastName LIKE '%$filter%' or s.firstName LIKE '%$filter%'")
+            ->orderBy('s.id', 'ASC')
+            ->setMaxResults(10)
+            ->getQuery()
+            ->getResult();
+    }
+
     // /**
     //  * @return Users[] Returns an array of Users objects
     //  */
