@@ -46,7 +46,7 @@ class UsersRepository extends ServiceEntityRepository
     }
 
     /**
-     * Filter the risks by their name
+     * Filter the users by their name
      * @param string $filter
      */
     public function filterByName(string $filter)

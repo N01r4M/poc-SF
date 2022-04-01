@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Projects;
 use App\Form\ProjectsType;
+use App\Form\SearchType;
 use App\Repository\ProjectsRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -13,11 +14,44 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route('/projects')]
 class ProjectsController extends AbstractController
 {
-    #[Route('/', name: 'app_projects_index', methods: ['GET'])]
-    public function index(ProjectsRepository $projectsRepository): Response
+    #[Route('/list/{page}/{filter}', name: 'app_projects_index', methods: ['GET', 'POST'])]
+    public function index(ProjectsRepository $projectsRepository, Request $request, int $page, ?string $filter = null): Response
     {
+        $offset = ($page - 1) * 10;
+        $projects = $projectsRepository->findBy([], [], 10, $offset);
+        $all = $projectsRepository->findAll();
+
+        $form = $this->createForm(SearchType::class, $filter);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $filter = $form->getData()['filter'];
+
+            if (is_null($filter)) {
+                $offset = 0 + (($page - 1) * 10);
+                $projects = $projectsRepository->findBy([], [], 10, $offset);
+                $all = $projectsRepository->findAll();
+            } else {
+                $projects = $projectsRepository->filterByName($filter);
+                $all = $projects;
+            }
+
+            return $this->render('projects/index.html.twig', [
+                'projects' => $projects,
+                'total' => count($all),
+                'numberPages' => intval(round(count($all) / 10)),
+                'page' => $page,
+                'filter' => $filter,
+                'form' => $form->createView(),
+            ]);
+        }
+
         return $this->render('projects/index.html.twig', [
-            'projects' => $projectsRepository->findAll(),
+            'projects' => $projects,
+            'total' => count($all),
+            'numberPages' => intval(round(count($all) / 10)),
+            'page' => $page,
+            'form' => $form->createView()
         ]);
     }
 

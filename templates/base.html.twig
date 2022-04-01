@@ -29,7 +29,7 @@
 
                             {% if is_granted('ROLE_ADMIN') %}
                                 <li class="nav-items">
-                                    <a href="{{ path('app_projects_index') }}" class="nav-item nav-link {% if (app.request.pathInfo | split("/")[1] == "projects") %}active{% endif %}">Projets</a>
+                                    <a href="{{ path('app_projects_index', {'page': 1}) }}" class="nav-item nav-link {% if (app.request.pathInfo | split("/")[1] == "projects") %}active{% endif %}">Projets</a>
                                 </li>
                                 <li class="nav-items">
                                     <a href="{{ path('app_users_index', {'page': 1}) }}" class="nav-item nav-link {% if (app.request.pathInfo | split("/")[1] == "users") %}active{% endif %}">Collaborateurs</a>
