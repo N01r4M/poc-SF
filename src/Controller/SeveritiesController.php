@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Severities;
 use App\Form\SeveritiesType;
+use App\Form\SearchType;
 use App\Repository\SeveritiesRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -13,11 +14,44 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route('/severities')]
 class SeveritiesController extends AbstractController
 {
-    #[Route('/', name: 'app_severities_index', methods: ['GET'])]
-    public function index(SeveritiesRepository $severitiesRepository): Response
+    #[Route('/list/{page}/{filter}', name: 'app_severities_index', methods: ['GET', 'POST'])]
+    public function index(SeveritiesRepository$severitiesRepository, Request $request, int $page, ?string $filter = null): Response
     {
+        $offset = ($page - 1) * 10;
+        $severities = $severitiesRepository->findBy([], [], 10, $offset);
+        $all = $severitiesRepository->findAll();
+
+        $form = $this->createForm(SearchType::class, $filter);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $filter = $form->getData()['filter'];
+
+            if (is_null($filter)) {
+                $offset = 0 + (($page - 1) * 10);
+                $severities = $severitiesRepository->findBy([], [], 10, $offset);
+                $all = $severitiesRepository->findAll();
+            } else {
+                $severities = $severitiesRepository->filterByName($filter);
+                $all = $severities;
+            }
+
+            return $this->render('severities/index.html.twig', [
+                'severities' => $severities,
+                'total' => count($all),
+                'numberPages' => intval(round(count($all) / 10)),
+                'page' => $page,
+                'filter' => $filter,
+                'form' => $form->createView(),
+            ]);
+        }
+
         return $this->render('severities/index.html.twig', [
-            'severities' => $severitiesRepository->findAll(),
+            'severities' => $severities,
+            'total' => count($all),
+            'numberPages' => intval(round(count($all) / 10)),
+            'page' => $page,
+            'form' => $form->createView()
         ]);
     }
 

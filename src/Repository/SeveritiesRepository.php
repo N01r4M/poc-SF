@@ -45,6 +45,20 @@ class SeveritiesRepository extends ServiceEntityRepository
         }
     }
 
+    /**
+     * Filter the severities by their name
+     * @param string $filter
+     */
+    public function filterByName(string $filter)
+    {
+        return $this->createQueryBuilder('s')
+            ->andWhere("s.name LIKE '%$filter%'")
+            ->orderBy('s.id', 'ASC')
+            ->setMaxResults(10)
+            ->getQuery()
+            ->getResult();
+    }
+
     // /**
     //  * @return Severities[] Returns an array of Severities objects
     //  */
