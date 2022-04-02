@@ -17,6 +17,8 @@ class StatusController extends AbstractController
     #[Route('/list/{page}/{filter}', name: 'app_status_index', methods: ['GET', 'POST'])]
     public function index(StatusRepository$statusRepository, Request $request, int $page, ?string $filter = null): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_ADMIN');
+        
         $offset = ($page - 1) * 10;
         $status = $statusRepository->findBy([], [], 10, $offset);
         $all = $statusRepository->findAll();
@@ -58,6 +60,8 @@ class StatusController extends AbstractController
     #[Route('/new', name: 'app_status_new', methods: ['GET', 'POST'])]
     public function new(Request $request, StatusRepository $statusRepository): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_ADMIN');
+        
         $status = new Status();
         $form = $this->createForm(StatusType::class, $status);
         $form->handleRequest($request);
@@ -81,6 +85,8 @@ class StatusController extends AbstractController
     #[Route('/{id}', name: 'app_status_show', methods: ['GET'])]
     public function show(Status $status): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_ADMIN');
+        
         return $this->render('status/show.html.twig', [
             'status' => $status,
         ]);
@@ -106,6 +112,8 @@ class StatusController extends AbstractController
     #[Route('/{id}', name: 'app_status_delete', methods: ['POST'])]
     public function delete(Request $request, Status $status, StatusRepository $statusRepository): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_ADMIN');
+        
         if ($this->isCsrfTokenValid('delete'.$status->getId(), $request->request->get('_token'))) {
             $statusRepository->remove($status);
         }

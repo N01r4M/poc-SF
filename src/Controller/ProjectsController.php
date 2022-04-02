@@ -17,6 +17,8 @@ class ProjectsController extends AbstractController
     #[Route('/list/{page}/{filter}', name: 'app_projects_index', methods: ['GET', 'POST'])]
     public function index(ProjectsRepository $projectsRepository, Request $request, int $page, ?string $filter = null): Response
     {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+        
         $offset = ($page - 1) * 10;
         $projects = $projectsRepository->findBy([], [], 10, $offset);
         $all = $projectsRepository->findAll();
@@ -58,6 +60,8 @@ class ProjectsController extends AbstractController
     #[Route('/new', name: 'app_projects_new', methods: ['GET', 'POST'])]
     public function new(Request $request, ProjectsRepository $projectsRepository): Response
     {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+        
         $project = new Projects();
         $form = $this->createForm(ProjectsType::class, $project);
         $form->handleRequest($request);
@@ -77,6 +81,8 @@ class ProjectsController extends AbstractController
     #[Route('/{id}', name: 'app_projects_show', methods: ['GET'])]
     public function show(Projects $project): Response
     {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+        
         return $this->render('projects/show.html.twig', [
             'project' => $project,
         ]);
@@ -85,6 +91,8 @@ class ProjectsController extends AbstractController
     #[Route('/{id}/edit', name: 'app_projects_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Projects $project, ProjectsRepository $projectsRepository): Response
     {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+        
         $form = $this->createForm(ProjectsType::class, $project);
         $form->handleRequest($request);
 
@@ -102,6 +110,8 @@ class ProjectsController extends AbstractController
     #[Route('/{id}', name: 'app_projects_delete', methods: ['POST'])]
     public function delete(Request $request, Projects $project, ProjectsRepository $projectsRepository): Response
     {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+        
         if ($this->isCsrfTokenValid('delete'.$project->getId(), $request->request->get('_token'))) {
             $projectsRepository->remove($project);
         }

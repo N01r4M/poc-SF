@@ -17,6 +17,8 @@ class BearingsController extends AbstractController
     #[Route('/list/{page}/{filter}', name: 'app_bearings_index', methods: ['GET', 'POST'])]
     public function index(BearingsRepository$bearingsRepository, Request $request, int $page, ?string $filter = null): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_ADMIN');
+
         $offset = ($page - 1) * 10;
         $bearings = $bearingsRepository->findBy([], [], 10, $offset);
         $all = $bearingsRepository->findAll();
@@ -58,6 +60,8 @@ class BearingsController extends AbstractController
     #[Route('/new', name: 'app_bearings_new', methods: ['GET', 'POST'])]
     public function new(Request $request, BearingsRepository $bearingsRepository): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_ADMIN');
+
         $bearing = new Bearings();
         $form = $this->createForm(BearingsType::class, $bearing);
         $form->handleRequest($request);
@@ -81,6 +85,8 @@ class BearingsController extends AbstractController
     #[Route('/{id}', name: 'app_bearings_show', methods: ['GET'])]
     public function show(Bearings $bearing): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_ADMIN');
+
         return $this->render('bearings/show.html.twig', [
             'bearing' => $bearing,
         ]);
@@ -89,6 +95,8 @@ class BearingsController extends AbstractController
     #[Route('/{id}/edit', name: 'app_bearings_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Bearings $bearing, BearingsRepository $bearingsRepository): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_ADMIN');
+
         $form = $this->createForm(BearingsType::class, $bearing);
         $form->handleRequest($request);
 
@@ -106,6 +114,8 @@ class BearingsController extends AbstractController
     #[Route('/{id}', name: 'app_bearings_delete', methods: ['POST'])]
     public function delete(Request $request, Bearings $bearing, BearingsRepository $bearingsRepository): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_ADMIN');
+        
         if ($this->isCsrfTokenValid('delete'.$bearing->getId(), $request->request->get('_token'))) {
             $bearingsRepository->remove($bearing);
         }

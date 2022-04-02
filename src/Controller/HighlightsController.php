@@ -17,6 +17,8 @@ class HighlightsController extends AbstractController
     #[Route('/list/{page}/{filter}', name: 'app_highlights_index', methods: ['GET', 'POST'])]
     public function index(HighlightsRepository$highlightsRepository, Request $request, int $page, ?string $filter = null): Response
     {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+
         $offset = ($page - 1) * 10;
         $highlights = $highlightsRepository->findBy([], [], 10, $offset);
         $all = $highlightsRepository->findAll();
@@ -58,6 +60,8 @@ class HighlightsController extends AbstractController
     #[Route('/new', name: 'app_highlights_new', methods: ['GET', 'POST'])]
     public function new(Request $request, HighlightsRepository $highlightsRepository): Response
     {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+
         $highlight = new Highlights();
         $form = $this->createForm(HighlightsType::class, $highlight);
         $form->handleRequest($request);
@@ -84,6 +88,8 @@ class HighlightsController extends AbstractController
     #[Route('/{id}/edit', name: 'app_highlights_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Highlights $highlight, HighlightsRepository $highlightsRepository): Response
     {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+
         $form = $this->createForm(HighlightsType::class, $highlight);
         $form->handleRequest($request);
 
@@ -101,6 +107,8 @@ class HighlightsController extends AbstractController
     #[Route('/{id}', name: 'app_highlights_delete', methods: ['POST'])]
     public function delete(Request $request, Highlights $highlight, HighlightsRepository $highlightsRepository): Response
     {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+
         if ($this->isCsrfTokenValid('delete'.$highlight->getId(), $request->request->get('_token'))) {
             $highlightsRepository->remove($highlight);
         }

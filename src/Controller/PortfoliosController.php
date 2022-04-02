@@ -17,6 +17,8 @@ class PortfoliosController extends AbstractController
     #[Route('/list/{page}/{filter}', name: 'app_portfolios_index', methods: ['GET', 'POST'])]
     public function index(PortfoliosRepository$portfoliosRepository, Request $request, int $page, ?string $filter = null): Response
     {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+
         $offset = ($page - 1) * 10;
         $portfolios = $portfoliosRepository->findBy([], [], 10, $offset);
         $all = $portfoliosRepository->findAll();
@@ -58,6 +60,8 @@ class PortfoliosController extends AbstractController
     #[Route('/new', name: 'app_portfolios_new', methods: ['GET', 'POST'])]
     public function new(Request $request, PortfoliosRepository $portfoliosRepository): Response
     {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+        
         $portfolio = new Portfolios();
         $form = $this->createForm(PortfoliosType::class, $portfolio);
         $form->handleRequest($request);
@@ -76,6 +80,8 @@ class PortfoliosController extends AbstractController
     #[Route('/{id}', name: 'app_portfolios_show', methods: ['GET'])]
     public function show(Portfolios $portfolio): Response
     {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+        
         $projects = $portfolio->getProjects();
         $manager = $portfolio->getManager();
 
@@ -89,6 +95,8 @@ class PortfoliosController extends AbstractController
     #[Route('/{id}/edit', name: 'app_portfolios_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Portfolios $portfolio, PortfoliosRepository $portfoliosRepository): Response
     {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+        
         $form = $this->createForm(PortfoliosType::class, $portfolio);
         $form->handleRequest($request);
 
@@ -106,6 +114,8 @@ class PortfoliosController extends AbstractController
     #[Route('/{id}', name: 'app_portfolios_delete', methods: ['POST'])]
     public function delete(Request $request, Portfolios $portfolio, PortfoliosRepository $portfoliosRepository): Response
     {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+        
         if ($this->isCsrfTokenValid('delete'.$portfolio->getId(), $request->request->get('_token'))) {
             $portfoliosRepository->remove($portfolio);
         }

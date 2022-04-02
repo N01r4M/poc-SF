@@ -17,6 +17,8 @@ class SeveritiesController extends AbstractController
     #[Route('/list/{page}/{filter}', name: 'app_severities_index', methods: ['GET', 'POST'])]
     public function index(SeveritiesRepository $severitiesRepository, Request $request, int $page, ?string $filter = null): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_ADMIN');
+        
         $offset = ($page - 1) * 10;
         $severities = $severitiesRepository->findBy([], [], 10, $offset);
         $all = $severitiesRepository->findAll();
@@ -58,6 +60,8 @@ class SeveritiesController extends AbstractController
     #[Route('/new', name: 'app_severities_new', methods: ['GET', 'POST'])]
     public function new(Request $request, SeveritiesRepository $severitiesRepository): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_ADMIN');
+        
         $severity = new Severities();
         $form = $this->createForm(SeveritiesType::class, $severity);
         $form->handleRequest($request);
@@ -76,6 +80,8 @@ class SeveritiesController extends AbstractController
     #[Route('/{id}', name: 'app_severities_show', methods: ['GET'])]
     public function show(Severities $severity): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_ADMIN');
+        
         return $this->render('severities/show.html.twig', [
             'severity' => $severity,
         ]);
@@ -84,6 +90,8 @@ class SeveritiesController extends AbstractController
     #[Route('/{id}/edit', name: 'app_severities_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Severities $severity, SeveritiesRepository $severitiesRepository): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_ADMIN');
+        
         $form = $this->createForm(SeveritiesType::class, $severity);
         $form->handleRequest($request);
 
@@ -101,6 +109,8 @@ class SeveritiesController extends AbstractController
     #[Route('/{id}', name: 'app_severities_delete', methods: ['POST'])]
     public function delete(Request $request, Severities $severity, SeveritiesRepository $severitiesRepository): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_ADMIN');
+        
         if ($this->isCsrfTokenValid('delete'.$severity->getId(), $request->request->get('_token'))) {
             $severitiesRepository->remove($severity);
         }

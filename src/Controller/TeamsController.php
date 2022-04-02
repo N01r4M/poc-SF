@@ -17,6 +17,8 @@ class TeamsController extends AbstractController
     #[Route('/list/{page}/{filter}', name: 'app_teams_index', methods: ['GET', 'POST'])]
     public function index(TeamsRepository$teamsRepository, Request $request, int $page, ?string $filter = null): Response
     {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+        
         $offset = ($page - 1) * 10;
         $teams = $teamsRepository->findBy([], [], 10, $offset);
         $all = $teamsRepository->findAll();
@@ -58,6 +60,8 @@ class TeamsController extends AbstractController
     #[Route('/new', name: 'app_teams_new', methods: ['GET', 'POST'])]
     public function new(Request $request, TeamsRepository $teamsRepository): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_ADMIN');
+        
         $team = new Teams();
         $form = $this->createForm(TeamsType::class, $team);
         $form->handleRequest($request);
@@ -76,6 +80,8 @@ class TeamsController extends AbstractController
     #[Route('/{id}', name: 'app_teams_show', methods: ['GET'])]
     public function show(Teams $team): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_ADMIN');
+        
         $members = $team->getMembers();
 
         return $this->render('teams/show.html.twig', [
@@ -87,6 +93,8 @@ class TeamsController extends AbstractController
     #[Route('/{id}/edit', name: 'app_teams_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Teams $team, TeamsRepository $teamsRepository): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_ADMIN');
+        
         $form = $this->createForm(TeamsType::class, $team);
         $form->handleRequest($request);
 

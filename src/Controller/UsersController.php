@@ -17,6 +17,8 @@ class UsersController extends AbstractController
     #[Route('/list/{page}/{filter}', name: 'app_users_index', methods: ['GET', 'POST'])]
     public function index(UsersRepository $usersRepository, Request $request, int $page, ?string $filter = null): Response
     {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+        
         $offset = ($page - 1) * 10;
         $users = $usersRepository->findBy([], [], 10, $offset);
         $all = $usersRepository->findAll();
@@ -58,6 +60,8 @@ class UsersController extends AbstractController
     #[Route('/new', name: 'app_users_new', methods: ['GET', 'POST'])]
     public function new(Request $request, UsersRepository $usersRepository): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_ADMIN');
+        
         $user = new Users();
         $form = $this->createForm(UsersType::class, $user);
         $form->handleRequest($request);
@@ -84,6 +88,8 @@ class UsersController extends AbstractController
     #[Route('/{id}/edit', name: 'app_users_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Users $user, UsersRepository $usersRepository): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_ADMIN');
+        
         $form = $this->createForm(UsersType::class, $user);
         $form->handleRequest($request);
 
@@ -101,6 +107,8 @@ class UsersController extends AbstractController
     #[Route('/{id}', name: 'app_users_delete', methods: ['POST'])]
     public function delete(Request $request, Users $user, UsersRepository $usersRepository): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_ADMIN');
+        
         if ($this->isCsrfTokenValid('delete'.$user->getId(), $request->request->get('_token'))) {
             $usersRepository->remove($user);
         }

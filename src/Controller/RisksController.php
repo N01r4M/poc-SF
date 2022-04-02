@@ -17,6 +17,8 @@ class RisksController extends AbstractController
     #[Route('/list/{page}/{filter}', name: 'app_risks_index', methods: ['GET', 'POST'])]
     public function index(RisksRepository $risksRepository, Request $request, int $page, ?string $filter = null): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_ADMIN');
+        
         $offset = ($page - 1) * 10;
         $risks = $risksRepository->findBy([], [], 10, $offset);
         $all = $risksRepository->findAll();
@@ -58,6 +60,8 @@ class RisksController extends AbstractController
     #[Route('/new', name: 'app_risks_new', methods: ['GET', 'POST'])]
     public function new(Request $request, RisksRepository $risksRepository): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_ADMIN');
+        
         $risk = new Risks();
         $form = $this->createForm(RisksType::class, $risk);
         $form->handleRequest($request);
@@ -76,6 +80,8 @@ class RisksController extends AbstractController
     #[Route('/{id}', name: 'app_risks_show', methods: ['GET'])]
     public function show(Risks $risk): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_ADMIN');
+        
         return $this->render('risks/show.html.twig', [
             'risk' => $risk,
         ]);
@@ -84,6 +90,8 @@ class RisksController extends AbstractController
     #[Route('/{id}/edit', name: 'app_risks_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Risks $risk, RisksRepository $risksRepository): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_ADMIN');
+        
         $form = $this->createForm(RisksType::class, $risk);
         $form->handleRequest($request);
 
@@ -101,6 +109,8 @@ class RisksController extends AbstractController
     #[Route('/{id}', name: 'app_risks_delete', methods: ['POST'])]
     public function delete(Request $request, Risks $risk, RisksRepository $risksRepository): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_ADMIN');
+        
         if ($this->isCsrfTokenValid('delete'.$risk->getId(), $request->request->get('_token'))) {
             $risksRepository->remove($risk);
         }

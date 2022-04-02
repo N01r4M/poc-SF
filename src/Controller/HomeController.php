@@ -21,6 +21,8 @@ class HomeController extends AbstractController
     #[Route('/', name: 'app_home')]
     public function index(ProjectsRepository $projectsRepository, StatusRepository $statusRepository): Response
     {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+
         $team = $this->security->getUser()->getTeam();
 
         $status = $statusRepository->findAll();

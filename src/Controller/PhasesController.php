@@ -17,6 +17,8 @@ class PhasesController extends AbstractController
     #[Route('/list/{page}/{filter}', name: 'app_phases_index', methods: ['GET', 'POST'])]
     public function index(PhasesRepository $phasesRepository, Request $request, int $page, ?string $filter = null): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_ADMIN');
+
         $offset = ($page - 1) * 10;
         $phases = $phasesRepository->findBy([], [], 10, $offset);
         $all = $phasesRepository->findAll();
@@ -58,6 +60,8 @@ class PhasesController extends AbstractController
     #[Route('/new', name: 'app_phases_new', methods: ['GET', 'POST'])]
     public function new(Request $request, PhasesRepository $phasesRepository): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_ADMIN');
+
         $phase = new Phases();
         $form = $this->createForm(PhasesType::class, $phase);
         $form->handleRequest($request);
@@ -81,6 +85,8 @@ class PhasesController extends AbstractController
     #[Route('/{id}', name: 'app_phases_show', methods: ['GET'])]
     public function show(Phases $phase): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_ADMIN');
+
         return $this->render('phases/show.html.twig', [
             'phase' => $phase,
         ]);
@@ -89,6 +95,8 @@ class PhasesController extends AbstractController
     #[Route('/{id}/edit', name: 'app_phases_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Phases $phase, PhasesRepository $phasesRepository): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_ADMIN');
+
         $form = $this->createForm(PhasesType::class, $phase);
         $form->handleRequest($request);
 
@@ -106,6 +114,8 @@ class PhasesController extends AbstractController
     #[Route('/{id}', name: 'app_phases_delete', methods: ['POST'])]
     public function delete(Request $request, Phases $phase, PhasesRepository $phasesRepository): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_ADMIN');
+        
         if ($this->isCsrfTokenValid('delete'.$phase->getId(), $request->request->get('_token'))) {
             $phasesRepository->remove($phase);
         }
