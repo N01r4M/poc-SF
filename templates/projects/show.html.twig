@@ -96,7 +96,15 @@
 
         <div class="col">
             <div class="bloc">
-                <h5>Risques</h5>
+                <div class="d-flex justify-content-between align-items-center">
+                    <h5>Risques</h5>
+                    <a href="{{ path('app_risks_new') }}" class="btn btn-primary">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-lg" viewbox="0 0 16 16">
+                            <path fill-rule="evenodd" d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2Z"/>
+                        </svg>
+                        Nouveau risque
+                    </a>
+                </div>
                 <ul>
                     {% for risk in project.risks %}
                         <li><a href="{{ path('app_risks_show', {id: risk.id}) }}">{{ risk.name }}</a></li>
@@ -105,7 +113,15 @@
             </div>
 
             <div class="bloc">
-                <h5>Faits marquants</h5>
+                <div class="d-flex justify-content-between align-items-center">
+                    <h5>Faits marquants</h5>
+                    <a href="{{ path('app_highlights_new') }}" class="btn btn-primary">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-lg" viewbox="0 0 16 16">
+                            <path fill-rule="evenodd" d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2Z"/>
+                        </svg>
+                        Nouveau fait
+                    </a>
+                </div>
                 <ul>
                     {% for highlight in project.highlights %}
                         <li><a href="{{ path('app_highlights_show', {id: highlight.id}) }}">{{ highlight.name }}</a></li>
