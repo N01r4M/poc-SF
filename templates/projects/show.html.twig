@@ -28,50 +28,86 @@
         </div>
     </div>
 
-    <div class="bloc-table">
-        <table class="table table-dark table-striped table-hover table-bordered align-middle table-responsive">
-            <tbody>
-                <tr>
-                    <th>Nom</th>
-                    <td>{{ project.name }}</td>
-                </tr>
-                <tr>
-                    <th>Description</th>
-                    <td>{{ project.description }}</td>
-                </tr>
-                <tr>
-                    <th>Débute le</th>
-                    <td>{{ project.startedAt ? project.startedAt|date('d/m/Y') : '' }}</td>
-                </tr>
-                <tr>
-                    <th>Fini le</th>
-                    <td>{{ project.endedAt ? project.endedAt|date('d/m/Y') : '' }}</td>
-                </tr>
-                <tr>
-                    <th>Archivé ?</th>
-                    <td>{{ project.isArchived ? 'Oui' : 'Non' }}</td>
-                </tr>
-                <tr>
-                    <th>Valeur initiale</th>
-                    <td>{{ project.initialValue }}
-                        €</td>
-                </tr>
-                <tr>
-                    <th>Valeur consommée</th>
-                    <td>{{ project.consumedValue }}
-                        €</td>
-                </tr>
-                <tr>
-                    <th>Reste à faire</th>
-                    <td>{{ project.stillToDo }}
-                        €</td>
-                </tr>
-                <tr>
-                    <th>Atterrissage</th>
-                    <td>{{ project.landing }}
-                        €</td>
-                </tr>
-            </tbody>
-        </table>
+    <div class="row">
+        <div class="col">
+            <div class="bloc-table">
+                <table class="table table-dark table-striped table-hover table-bordered align-middle table-responsive">
+                    <tbody>
+                        <tr>
+                            <th>Nom</th>
+                            <td>{{ project.name }}</td>
+                        </tr>
+                        <tr>
+                            <th>Statut</th>
+                            <td>{{ project.status.name }}</td>
+                        </tr>
+                        <tr>
+                            <th>Description</th>
+                            <td>{{ project.description }}</td>
+                        </tr>
+                        <tr>
+                            <th>Débute le</th>
+                            <td>{{ project.startedAt ? project.startedAt|date('d/m/Y') : '' }}</td>
+                        </tr>
+                        <tr>
+                            <th>Fini le</th>
+                            <td>{{ project.endedAt ? project.endedAt|date('d/m/Y') : '' }}</td>
+                        </tr>
+                        <tr>
+                            <th>Archivé ?</th>
+                            <td>{{ project.isArchived ? 'Oui' : 'Non' }}</td>
+                        </tr>
+                        <tr>
+                            <th>Valeur initiale</th>
+                            <td>{{ project.initialValue }}
+                                €</td>
+                        </tr>
+                        <tr>
+                            <th>Valeur consommée</th>
+                            <td>{{ project.consumedValue }}
+                                €</td>
+                        </tr>
+                        <tr>
+                            <th>Reste à faire</th>
+                            <td>{{ project.stillToDo }}
+                                €</td>
+                        </tr>
+                        <tr>
+                            <th>Atterrissage</th>
+                            <td>{{ project.landing }}
+                                €</td>
+                        </tr>
+                        <tr>
+                            <th>Equipe projet</th>
+                            <td>{{ project.teamProject.name }}</td>
+                        </tr>
+                        <tr>
+                            <th>Equipe cliente</th>
+                            <td>{{ project.teamCustomers.name }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="col">
+            <div class="bloc">
+                <h5>Risques</h5>
+                <ul>
+                    {% for risk in project.risks %}
+                        <li><a href="{{ path('app_risks_show', {id: risk.id}) }}">{{ risk.name }}</a></li>
+                    {% endfor %}
+                </ul>
+            </div>
+
+            <div class="bloc">
+                <h5>Faits marquants</h5>
+                <ul>
+                    {% for highlight in project.highlights %}
+                        <li><a href="{{ path('app_highlights_show', {id: highlight.id}) }}">{{ highlight.name }}</a></li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
     </div>
 {% endblock %}
