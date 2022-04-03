@@ -49,6 +49,20 @@
             </div>
 
             <div class="bloc">
+                <h5>Projets avec risques (équipe)</h5>
+                <div>
+                    <ul>
+                        {% for project in projectsWithRisks %}
+                            <li>
+                                <a href="{{ path('app_projects_show', {'id': project.id}) }}">{{ project.name }}</a>, débuté le
+                                {{ project.startedAt|date("d/m/Y") }}
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+
+            <div class="bloc">
                 <h5>Projets selon leur statut (équipe)</h5>
                 <div>
                     <ul>
