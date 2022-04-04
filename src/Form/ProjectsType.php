@@ -2,6 +2,7 @@
 
 namespace App\Form;
 
+use App\Entity\Phases;
 use App\Entity\Portfolios;
 use App\Entity\Projects;
 use App\Entity\Status;
@@ -83,6 +84,12 @@ class ProjectsType extends AbstractType
                 'class' => Status::class,
                 'choice_label' => 'name',
                 'label' => 'Statut',
+                'required' => true
+            ])
+            ->add('phase', EntityType::class, [
+                'class' => Phases::class,
+                'choice_label' => 'name',
+                'label' => 'Phase',
                 'required' => true
             ])
             ->add('portfolio', EntityType::class, [
